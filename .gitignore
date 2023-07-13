@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+
+# JMeter tests
+tests/jmeter
+tests/jmeter*
+
+# Fablo deployments
+scripts/fablo/fablo-target
+scripts/fablo/fablo-target*
+scripts/fablo/chaincodes
+scripts/fablo/loyalty-blockchain-contracts
+scripts/fablo/fablo.sh
+
+# yarn error logs
+yarn-error.log
+
+# Environment varibales
+.env*
+!.env*.example
+
+# Code coverage
+coverage
+
+# Jetbrains
+.idea
+
+# VSCode
+.vscode 
+.DS_Store
+

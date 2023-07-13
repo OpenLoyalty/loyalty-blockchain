@@ -1,0 +1,30 @@
+{
+  "name": "loyalty-blockchain",
+  "version": "1.0.0",
+  "description": "Loyalty Blockchain API",
+  "main": "src/index.js",
+  "author": "Open Loyalty",
+  "license": "Apache-2.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenLoyalty/loyalty-blockchain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenLoyalty/loyalty-blockchain/issues"
+  },
+  "homepage": "https://www.openloyalty.io/",
+  "engineStrict": false,
+  "engines": {
+    "node": ">=18.16"
+  },
+  "scripts": {
+    "generate-network-config": "node generate-network-config.js",
+    "init-ledger": "node init-ledger.js"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "js-yaml": "^4.1.0",
+    "yarn": "^1.22.19"
+  }
+}

@@ -1,0 +1,2087 @@
+{
+	"info": {
+		"_postman_id": "ae4e3003-04f4-4aa4-a6f9-9662daa99135",
+		"name": "hl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.collectionVariables.set(\"token\", res.tokens.access.token);",
+									"pm.globals.set(\"today\", parseInt(Date.now() / 1000));",
+									"pm.globals.set(\"count\", 2);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"appAdmin\",\n    \"password\": \"password1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh-tokens",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJpYXQiOjE2NjAxNjc1MjksImV4cCI6MTY2Mjc1OTUyOSwidHlwZSI6InJlZnJlc2gifQ.Gk_-eiOLVSPcWP1Y211tt9NewSMAfos_fkAc2FZxzqw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/auth/refresh-tokens",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"refresh-tokens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"appAdmin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/auth/forgot-password",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset-pasword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"password\": \"password1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/auth/reset-pasword",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"reset-pasword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/auth/logout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "spendPoints",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/points/spend",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"points",
+								"spend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transferPoints",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"receiverWallet\": \"5557856d-44cc-4224-918a-6ff6c4cb404d\",\n    \"amount\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/points/transfer",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"points",
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBalance",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/points/balance",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"points",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getHistory",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/points/history",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"points",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/v1/ping",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"password1\",\n    \"organization\": \"Org1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/user",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests",
+			"item": [
+				{
+					"name": "ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/v1/test/ping",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"test",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ping blockchain",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/v1/test/blockchain/ping",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"test",
+								"blockchain",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "network",
+					"item": [
+						{
+							"name": "peer",
+							"item": [
+								{
+									"name": "peer/{name}",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/peer/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"peer",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "peer0.org1.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "peer/{name}",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"url\": \"org1-peer1:7051\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/peer/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"peer",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "org1-peer1.hyperledger"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "peer/{name}",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/peer/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"peer",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "peer0.org1.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "peer",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/peer",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"peer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "peer",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"peer1.org2.com\",\n  \"url\": \"peer1.org2.com:7062\",\n  \"orgName\": \"Org2\",\n  \"tlsCaCert\": \"-----BEGIN CERTIFICATE-----\\nMIICNzCCAd2gAwIBAgIQYrK76v1dPJ6owyjYQarm/DAKBggqhkjOPQQDAjBmMQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzERMA8GA1UEChMIb3JnMi5jb20xFzAVBgNVBAMTDnRsc2NhLm9yZzIu\\nY29tMB4XDTIyMDkwNjE2MjkwMFoXDTMyMDkwMzE2MjkwMFowZjELMAkGA1UEBhMC\\nVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28x\\nETAPBgNVBAoTCG9yZzIuY29tMRcwFQYDVQQDEw50bHNjYS5vcmcyLmNvbTBZMBMG\\nByqGSM49AgEGCCqGSM49AwEHA0IABBfAdbaONJx4ZxxFU0mlb9Fr+0ErQAbKqFnU\\nLaCTgZwco6JIuLY4o6mFafymkFN+TP3HRYgAEDJ+yZkUhkjMZGGjbTBrMA4GA1Ud\\nDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0T\\nAQH/BAUwAwEB/zApBgNVHQ4EIgQggms1+hbRHRT3Xqvxt8Ftiqpboo5cnxtU0tP2\\n+vvAXO4wCgYIKoZIzj0EAwIDSAAwRQIhANQz/AQWUcMGxkULmqxzorShs5bTj9RO\\nYEJ0awkRL060AiBOCR3P9wAV85kh4/ZPQaAG3m6HRS1qeGxVWB8/3jwCSA==\\n-----END CERTIFICATE-----\\n\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/peer",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"peer"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "org",
+							"item": [
+								{
+									"name": "org/{name}",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/org/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"org",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "Org1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "org/{name}",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"mspId\": \"Org1MSP\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/org/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"org",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "Org1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "org/{name}",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/org/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"org",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "Org1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "org",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/org",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"org"
+											],
+											"query": [
+												{
+													"key": "peers",
+													"value": "true",
+													"disabled": true
+												},
+												{
+													"key": "ca",
+													"value": "true",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "org",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Org2\",\n  \"mspId\": \"Org2MSP\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/org",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"org"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "orgAdmin",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/org/admin-user/:orgName",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"org",
+												"admin-user",
+												":orgName"
+											],
+											"query": [
+												{
+													"key": "peers",
+													"value": "true",
+													"disabled": true
+												},
+												{
+													"key": "ca",
+													"value": "true",
+													"disabled": true
+												}
+											],
+											"variable": [
+												{
+													"key": "orgName",
+													"value": "Org1MSP"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "orgAdmin",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/org/admin-user/:orgName",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"org",
+												"admin-user",
+												":orgName"
+											],
+											"variable": [
+												{
+													"key": "orgName",
+													"value": "Org2"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "ca",
+							"item": [
+								{
+									"name": "ca/{name}",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/ca/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"ca",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "ca"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ca/{name}",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"url\": \"https://ca.org1.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/ca/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"ca",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "ca.org1.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ca/{name}",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/ca/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"ca",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "ca.org1.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ca",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/ca",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"ca"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ca",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"ca.org2.com\",\n  \"url\": \"https://ca.org2.com\",\n  \"orgName\": \"Org2\",\n  \"enrollId\": \"admin\",\n  \"enrollSecret\": \"adminpw\",\n  \"tlsCaCert\": \"-----BEGIN CERTIFICATE-----\\nMIICLzCCAdegAwIBAgIQdPrNAWVujcxkEYciAuZhmTAKBggqhkjOPQQDAjBjMQsw\\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\\nYW5jaXNjbzERMA8GA1UEChMIb3JnMi5jb20xFDASBgNVBAMTC2NhLm9yZzIuY29t\\nMB4XDTIyMDkwNjE2MjkwMFoXDTMyMDkwMzE2MjkwMFowYzELMAkGA1UEBhMCVVMx\\nEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28xETAP\\nBgNVBAoTCG9yZzIuY29tMRQwEgYDVQQDEwtjYS5vcmcyLmNvbTBZMBMGByqGSM49\\nAgEGCCqGSM49AwEHA0IABOt4Pe0jU8Lib5R8kE3UNqdZxqNdiEtTchkkVAsFy/1V\\nMEoyYe/+hKt8O76d+fYh8L94IKZTGqcwprWSq252N9ujbTBrMA4GA1UdDwEB/wQE\\nAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUw\\nAwEB/zApBgNVHQ4EIgQgj4KR4Bh77AMhFVmdDH2aKAhFD7NbP/Hd2zNZmhG82N8w\\nCgYIKoZIzj0EAwIDRgAwQwIfRxNAgkZe0rZb7WcjkeUgp1qN5NH9YLzzbOnp4LsW\\nwQIgIccnTO+yYxuzsb+v/OaW9dHhlGC1bHUlPVGfp8hOfqQ=\\n-----END CERTIFICATE-----\\n\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/ca",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"ca"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "channel",
+							"item": [
+								{
+									"name": "channel/{name}",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/channel/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"channel",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "channel-org1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "channel/{name}",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"channel1-org1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/channel/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"channel",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "channel-org1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "channel/{name}",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/channel/:name",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"channel",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "ca.org1.com"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "channel",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/channel",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"channel"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "channel",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"channel-org1\",\n  \"orgName\": \"Org1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/channel",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"channel"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "chaincode",
+							"item": [
+								{
+									"name": "chaincode/{id}",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/chaincode/:id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"chaincode",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "chaincode/{id}",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"ephemeral-utxo2\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/chaincode/:id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"chaincode",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "chaincode/{id}",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/chaincode/:id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"chaincode",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "chaincode",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/chaincode",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"chaincode"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "chaincode",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"gift-card-contract\",\n  \"channelName\": \"channel-org1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/v1/admin/network/chaincode",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"v1",
+												"admin",
+												"network",
+												"chaincode"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "prepaid-card",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiverWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"amount\": 444,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2023-03-10 22:30:00\",\n    \"expirationDate\": \"2023-02-10 12:53:15\"\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/prepaid-card/create",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"prepaid-card",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "transferCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"receiverWallet\": \"a7fc63fd-28de-4cbd-8918-1cf514209145\",\n    \"cardId\": \"46de17150ae043dd70126bcde4bfe41d29b99a2d67c770e61b2e53c8be437c34.0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/prepaid-card/transfer",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"prepaid-card",
+										"transfer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "spendFromCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a\",\n    \"cardId\": \"09b9344916c473bd28d61ff6a829ea12762b16971524b6a668eeffa7f1973aad.0\",\n    \"amount\": 25,\n    \"currency\": \"USD\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/prepaid-card/spend",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"prepaid-card",
+										"spend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "rechargeCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cardId\": \"09b9344916c473bd28d61ff6a829ea12762b16971524b6a668eeffa7f1973aad.0\",\n    \"amount\": 77,\n    \"currency\": \"USD\",\n    \"extendPeriodDays\": 5\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/prepaid-card/recharge",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"prepaid-card",
+										"recharge"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBalance",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/prepaid-card/:cardId/balance",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"prepaid-card",
+										":cardId",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "ecceafda-6a95-4eeb-8289-fed8e7d1124b"
+										},
+										{
+											"key": "cardId",
+											"value": "edee9d47d6d29b9c414fcfb878f4e145512b21bb25890c8089ea6914f81b6843.0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getHistory",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/prepaid-card/:cardId/history",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"prepaid-card",
+										":cardId",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a"
+										},
+										{
+											"key": "cardId",
+											"value": "09b9344916c473bd28d61ff6a829ea12762b16971524b6a668eeffa7f1973aad.0"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "points",
+					"item": [
+						{
+							"name": "addPoints",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiverWallet\": \"ecceafda-6a95-4eeb-8289-fed8e7d1124b\",\n    \"amount\": 300,\n    \"enforcementDate\": \"2022-11-10 22:30:00\",\n    \"expirationDate\": \"2023-02-26 12:55:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/points/add",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"points",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "transferPoints",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"receiverWallet\": \"a7fc63fd-28de-4cbd-8918-1cf514209145\",\n    \"amount\": 100\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/points/transfer",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"points",
+										"transfer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "spendPoints",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"amount\": 30\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/points/spend",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"points",
+										"spend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBalance",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/points/balance",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"points",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "fa2cd031-d5dd-4406-b4cb-84ff8f88bebe"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getHistory",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/points/history",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"points",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "fa2cd031-d5dd-4406-b4cb-84ff8f88bebe"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "gift-card",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiverWallet\": \"ecceafda-6a95-4eeb-8289-fed8e7d1124b\",\n    \"amount\": 333,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2022-11-10 22:30:00\",\n    \"expirationDate\": \"2023-12-16 12:53:15\"\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/gift-card/create",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"gift-card",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "transferCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"e51bda7a-11d6-4984-8700-04b6a50e0073\",\n    \"receiverWallet\": \"ccd26e58-4977-4e31-a5d8-bd22b6035da5\",\n    \"cardId\": \"890832a15a816e98b04a484a59aa408df3f465d66f368017cb43a1304b160f05.0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/gift-card/transfer",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"gift-card",
+										"transfer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "spendFromCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"6042f33f-a506-42f6-98b9-a626e68b9427\",\n    \"cardId\": \"ca706e0112a2a4c2c245bf0eaecc246c288fd84501aa8aad64ea6d0d567c0234.0\",\n    \"amount\": 25,\n    \"currency\": \"USD\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/gift-card/spend",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"gift-card",
+										"spend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBalance",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/gift-card/:cardId/balance",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"gift-card",
+										":cardId",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "ecceafda-6a95-4eeb-8289-fed8e7d1124b"
+										},
+										{
+											"key": "cardId",
+											"value": "eb7da2184b6fcaef02ff8a6c0157ca545a4fa3a148148f0279578bf474f23bd9.0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getHistory",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/gift-card/:cardId/history",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"gift-card",
+										":cardId",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "fa2cd031-d5dd-4406-b4cb-84ff8f88bebe"
+										},
+										{
+											"key": "cardId",
+											"value": "2a6c76570dd40c5db05585d0cd4eb6475e1302ddff57370b8184138ebc05a998.0"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "voucher",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiverWallet\": \"ecceafda-6a95-4eeb-8289-fed8e7d1124b\",\n    \"amount\": 333,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2022-12-29 22:30:00\",\n    \"expirationDate\": \"2023-12-16 12:53:15\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/voucher/create",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"voucher",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "transferCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"receiverWallet\": \"a7fc63fd-28de-4cbd-8918-1cf514209145\",\n    \"cardId\": \"4a2e10bf9455dcf75df4d2b057fdbe45fab295ad8380883384b404bfb08416c2.0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/voucher/transfer",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"voucher",
+										"transfer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "spendFromCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a\",\n    \"cardId\": \"e729ac8d7640cad61d26082335d897dda0ce984f9b2807ba40f6867cf7df822d.0\",\n    \"amount\": 25,\n    \"currency\": \"USD\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/voucher/spend",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"voucher",
+										"spend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBalance",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/voucher/:cardId/balance",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"voucher",
+										":cardId",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "ecceafda-6a95-4eeb-8289-fed8e7d1124b"
+										},
+										{
+											"key": "cardId",
+											"value": "92c188cc83213c4ca7475945fc00888dbc75bdb4c01ec6e09e6a83c43af7818a.0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getHistory",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/voucher/:cardId/history",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"voucher",
+										":cardId",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a"
+										},
+										{
+											"key": "cardId",
+											"value": "e729ac8d7640cad61d26082335d897dda0ce984f9b2807ba40f6867cf7df822d.0"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"password1\",\n    \"organization\": \"Org1\",\n    \"role\": \"client\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/v1/admin/user",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/v1/admin/user?sortBy=userUuid&limit=10&page=1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"user"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "userUuid"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/v1/admin/user/:wallet",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"user",
+								":wallet"
+							],
+							"variable": [
+								{
+									"key": "wallet",
+									"value": "ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "count",
+			"value": "2"
+		},
+		{
+			"key": "mock",
+			"value": "true"
+		},
+		{
+			"key": "queryString",
+			"value": ""
+		},
+		{
+			"key": "walletId",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "peerName",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": "appAdmin"
+		},
+		{
+			"key": "password",
+			"value": "password1"
+		},
+		{
+			"key": "chiancodeName",
+			"value": ""
+		},
+		{
+			"key": "channelName",
+			"value": ""
+		},
+		{
+			"key": "chaincodeName",
+			"value": ""
+		},
+		{
+			"key": "today",
+			"value": ""
+		},
+		{
+			"key": "tommorow",
+			"value": ""
+		},
+		{
+			"key": "futureDate",
+			"value": ""
+		},
+		{
+			"key": "receiverWalletId",
+			"value": ""
+		}
+	]
+}

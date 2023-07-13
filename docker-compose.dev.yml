@@ -1,0 +1,9 @@
+version: '3.5'
+
+services:
+  node-app:
+    environment:
+      - NODE_ENV=development
+    container_name: node-app-dev
+    command: ["yarn", "dev", "-L"] #array form required!
+

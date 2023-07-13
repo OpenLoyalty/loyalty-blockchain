@@ -1,0 +1,56 @@
+{
+  "name": "openpay",
+  "description": "Connection profile for Hyperledger Explorer in OpenPay network",
+  "version": "1.0.0",
+  "client": {
+    "organization": "Org1",
+    "tlsEnable": true,
+    "enableAuthentication": true,
+    "adminCredential": {
+      "id": "admin",
+      "password": "adminpw"
+    },
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "organizations": {
+    "Org1": {
+      "mspid": "Org1MSP",
+      "adminPrivateKey": {
+        "path": "/tmp/crypto/peerOrganizations/org1.com/users/Admin@org1.com/msp/keystore/priv-key.pem"
+      },
+      "peers": [
+        "peer0.org1.com",
+        "peer1.org1.com"
+      ],
+      "signedCert": {
+        "path": "/tmp/crypto/peerOrganizations/org1.com/users/Admin@org1.com/msp/signcerts/Admin@org1.com-cert.pem"
+      }
+    }
+  },
+  "peers": {
+    "peer0.org1.com": {
+      "url": "grpcs://peer0.org1.com:7041",
+      "tlsCACerts": {
+        "path": "/tmp/crypto/peerOrganizations/org1.com/msp/tlscacerts/tlsca.org1.com-cert.pem"
+      }
+    },
+    "peer1.org1.com": {
+      "url": "grpcs://peer1.org1.com:7042",
+      "tlsCACerts": {
+        "path": "/tmp/crypto/peerOrganizations/org1.com/msp/tlscacerts/tlsca.org1.com-cert.pem"
+      }
+    }
+  },
+  "channels": {
+    "channel1-org1": {
+      "peers": {}
+    }
+  }
+}

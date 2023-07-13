@@ -1,0 +1,77 @@
+version: '3.5'
+
+services:
+  node-app:
+    build: .
+    image: node-app
+    env_file: .env
+    ports:
+      - '3000:3000'
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:3000/v1/diagnostics/healthy || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/node-app
+      - ./scripts/fablo/fablo-target/network-config.yaml:/usr/config/admin-topology.yaml
+    networks:
+      - node-network
+      - hl-network
+
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./scripts/sql/postgres_init_db.sh:/docker-entrypoint-initdb.d/init.sh
+    environment:
+      - DB_NAME=openpay
+      - POSTGRES_USERNAME=opuser
+      - POSTGRES_USER_PASSWORD=opuserpass
+      - POSTGRES_PASSWORD=opuserpass
+    ports:
+      - '5432:5432'
+    networks:
+      - node-network
+  explorer.com:
+    image: hyperledger/explorer:1.1.8
+    restart: on-failure
+    container_name: explorer.com
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_DATABASE=openpay
+      - DATABASE_USERNAME=opuser
+      - DATABASE_PASSWD=opuserpass
+      - LOG_LEVEL_APP=info
+      - LOG_LEVEL_DB=info
+      - LOG_LEVEL_CONSOLE=info
+      - LOG_CONSOLE_STDOUT=true
+      - DISCOVERY_AS_LOCALHOST=false
+    volumes:
+      - ./scripts/fablo/explorer/config-global.json:/opt/explorer/app/platform/fabric/config.json
+      - ./scripts/fablo/explorer:/opt/explorer/app/platform/fabric/connection-profile
+      - ./scripts/fablo/fablo-target/fabric-config/crypto-config:/tmp/crypto
+    ports:
+      - "7010:8080"
+    depends_on:
+      node-app:
+        condition: service_healthy
+      db:
+        condition: service_started
+    networks:
+      - hl-network
+      - node-network
+
+volumes:
+  dbdata:
+
+networks:
+  node-network:
+    driver: bridge
+  hl-network:
+    external:
+      name: custom-network_basic

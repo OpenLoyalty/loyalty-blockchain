@@ -1,0 +1,44 @@
+{
+	"id": "f5430916-39ba-4d8c-87af-1b9deb580f8f",
+	"name": "local",
+	"values": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:3000",
+			"enabled": true
+		},
+		{
+			"key": "organization",
+			"value": "Org1",
+			"enabled": true
+		},
+		{
+			"key": "username",
+			"value": "appAdmin",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "password1",
+			"enabled": true
+		},
+		{
+			"key": "fname",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "walletId",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "receiverWalletId",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-02-02T13:28:32.046Z",
+	"_postman_exported_using": "Postman/8.12.5"
+}

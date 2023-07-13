@@ -1,0 +1,112 @@
+Loyalty Blockchain
+Copyright 2023 Open Loyalty sp. z o.o.
+
+This product includes software developed at
+Open Loyalty sp. z o.o. (https://www.openloyalty.io/).
+
+Notices for Third-Party Software Packages included in Loyalty Blockchain:
+
+- @grpc/grpc-js:
+  License: Apache-2.0
+  Repository: https://github.com/grpc/grpc-node
+
+- @hyperledger/fabric-gateway:
+  License: Apache-2.0
+  Repository: https://github.com/hyperledger/fabric-gateway-node
+
+- @joi/date:
+  License: MIT
+  Repository: https://github.com/sideway/joi
+
+- @prisma/client:
+  License: MIT
+  Repository: https://github.com/prisma/prisma
+
+- bcryptjs:
+  License: MIT
+  Repository: https://github.com/dcodeIO/bcrypt.js
+
+- compression:
+  License: MIT
+  Repository: https://github.com/expressjs/compression
+
+- cors:
+  License: MIT
+  Repository: https://github.com/expressjs/cors
+
+- dotenv:
+  License: BSD-2-Clause
+  Repository: https://github.com/motdotla/dotenv
+
+- express:
+  License: MIT
+  Repository: https://github.com/expressjs/express
+
+- express-rate-limit:
+  License: MIT
+  Repository: https://github.com/nfriedly/express-rate-limit
+
+- fabric-ca-client:
+  License: Apache-2.0
+  Repository: https://github.com/hyperledger/fabric-ca
+
+- fabric-common:
+  License: Apache-2.0
+  Repository: https://github.com/hyperledger/fabric-common-node
+
+- fabric-network:
+  License: Apache-2.0
+  Repository: https://github.com/hyperledger/fabric-sdk-node
+
+- helmet:
+  License: MIT
+  Repository: https://github.com/helmetjs/helmet
+
+- http-status:
+  License: MIT
+  Repository: https://github.com/adaltas/node-http-status
+
+- joi:
+  License: MIT
+  Repository: https://github.com/sideway/joi
+
+- joi-currency-code:
+  License: ISC
+  Repository: https://github.com/alkemics/joi-currency-code
+
+- js-yaml:
+  License: MIT
+  Repository: https://github.com/nodeca/js-yaml
+
+- jsonwebtoken:
+  License: MIT
+  Repository: https://github.com/auth0/node-jsonwebtoken
+
+- lodash:
+  License: MIT
+  Repository: https://github.com/lodash/lodash
+
+- moment:
+  License: MIT
+  Repository: https://github.com/moment/moment
+
+- morgan:
+  License: MIT
+  Repository: https://github.com/expressjs/morgan
+
+- loyalty-blockchain-common:
+  License: Apache-2.0
+  Repository: https://github.com/OpenLoyalty/loyalty-blockchain-common
+
+- passport:
+  License: MIT
+  Repository: https://github.com/jaredhanson/passport
+
+- passport-jwt:
+  License: MIT
+  Repository: https://github.com/mikenicholson/passport-jwt
+
+- prisma:
+  License: MIT
+  Repository: https://github.com/prisma/prisma
+

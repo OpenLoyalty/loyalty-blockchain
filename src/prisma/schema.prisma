@@ -1,0 +1,263 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Chaincode {
+  id           Int         @id @default(autoincrement())
+  name         String
+  channel      Channel?   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId    Int?
+}
+
+model Channel {
+  id           Int         @id @default(autoincrement())
+  name         String      @unique
+  organization Org?        @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  orgId        Int?
+  chaincodes   Chaincode[]
+}
+
+model CA {
+  id           Int     @id @default(autoincrement())
+  name         String  @unique
+  url          String
+  tlsCaCert    String?
+  enrollId     String
+  enrollSecret String
+  organization Org?    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  orgId        Int?    @unique
+}
+
+model Peer {
+  id           Int     @id @default(autoincrement())
+  name         String  @unique
+  url          String
+  tlsCaCert    String?
+  organization Org?    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  orgId        Int?
+}
+
+model Org {
+  id       Int        @id @default(autoincrement())
+  mspId    String     @unique
+  name     String     @unique
+  peers    Peer[]
+  ca       CA?
+  users    User[]
+  channels Channel[]
+}
+
+model AuthToken {
+  id          Int      @id @default(autoincrement())
+  blacklisted Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  expires     DateTime @db.Date
+  token       String
+  type        String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+
+  @@index([token], map: "token_1")
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int     @unique
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  userUuid     String?  @unique
+  password     String
+  cert         String
+  privateKey   String
+  role         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  profile      Profile?
+  organization Org?     @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  orgId        Int?
+
+  AuthToken AuthToken[]
+  @@index([role], map: "role_1")
+}
+
+// SQL Views to enable sane queries
+//model TxView {
+//  txhash   String
+//  blockid  Int
+//  isdelete Boolean
+//  asset_id String
+//  createdt DateTime
+//
+//  @@unique([asset_id, isdelete])
+//  @@map(name: "txview")
+//}
+//model Assets {
+//  createdt        DateTime
+//  txhash          String
+//  asset_id        String   @unique
+//  amount          String
+//  enforcementDate String
+//  expirationDate  String
+//  owner           String
+//
+//  @@map(name: "assets")
+//}
+//
+//model ActiveAssets {
+//  createdt        DateTime
+//  txhash          String
+//  asset_id        String   @unique
+//  amount          String
+//  enforcementDate String
+//  expirationDate  String
+//  owner           String
+//
+//  @@map(name: "activeassets")
+//}
+
+// Following tables are mapping from Hyperledger Explorer Db structure
+model ExplorerBlocks {
+  id                   Int       @id @default(autoincrement())
+  blocknum             Int?
+  datahash             String?
+  prehash              String?
+  txcount              Int?
+  createdt             DateTime?
+  prev_blockhash       String?
+  blockhash            String?
+  channel_genesis_hash String?
+  blksize              Int?
+  network_name         String?
+
+  @@map(name: "blocks")
+}
+
+model ExplorerChaincodes {
+  id                   Int       @id @default(autoincrement())
+  name                 String?
+  version              String?
+  path                 String?
+  channel_genesis_hash String?
+  txcount              Int?
+  createdt             DateTime?
+  network_name         String?
+
+  @@map(name: "chaincodes")
+}
+
+model ExplorerPeerRefChaincode {
+  id           Int       @id @default(autoincrement())
+  peerid       String?
+  chaincodeid  String?
+  cc_version   String?
+  channelid    String?
+  createdt     DateTime?
+  network_name String?
+
+  @@map(name: "peer_ref_chaincode")
+}
+
+model ExplorerChannel {
+  id                   Int       @id @default(autoincrement())
+  name                 String?
+  blocks               Int?
+  trans                Int?
+  createdt             DateTime?
+  channel_genesis_hash String?
+  channel_hash         String?
+  channel_version      String?
+  network_name         String?
+
+  @@map(name: "channel")
+}
+
+model ExplorerPeer {
+  id                   Int       @id @default(autoincrement())
+  org                  Int?
+  channel_genesis_hash String?
+  mspid                String?
+  requests             String?
+  events               String?
+  server_hostname      String?
+  createdt             DateTime?
+  peer_type            String?
+  network_name         String?
+
+  @@map(name: "peer")
+}
+
+model ExplorerPeerRefChannel {
+  id           Int     @id @default(autoincrement())
+  peerid       String?
+  channelid    String?
+  peer_type    String?
+  network_name String?
+
+  @@map(name: "peer_ref_channel")
+}
+
+model ExplorerOrderer {
+  id              Int       @id @default(autoincrement())
+  requests        String?
+  server_hostname String?
+  createdt        DateTime?
+  network_name    String?
+
+  @@map(name: "orderer")
+}
+
+model ExplorerTransactions {
+  id                       Int       @id @default(autoincrement())
+  blockid                  Int?
+  txhash                   String?
+  createdt                 DateTime?
+  chaincodename            String?
+  status                   Int?
+  creator_msp_id           String?
+  endorser_msp_id          String?
+  chaincode_id             String?
+  type                     String?
+  read_set                 Json?     @db.Json
+  write_set                Json?     @db.Json
+  channel_genesis_hash     String?
+  validation_code          String?
+  envelope_signature       String?
+  payload_extension        String?
+  creator_id_bytes         String?
+  creator_nonce            String?
+  chaincode_proposal_input String?
+  tx_response              String?
+  payload_proposal_hash    String?
+  endorser_id_bytes        String?
+  endorser_signature       String?
+  network_name             String?
+
+  @@map(name: "transactions")
+}
+
+model ExplorerUsers {
+  id          Int      @id @default(autoincrement())
+  username    String
+  email       String?
+  networkName String
+  firstName   String?
+  lastName    String?
+  password    String?
+  roles       String?
+  salt        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map(name: "users")
+}

@@ -1,0 +1,11 @@
+module.exports.authService = require('./auth.service');
+module.exports.tokenService = require('./token.service');
+module.exports.userService = require('./user.service');
+module.exports.adminService = require('./admin');
+module.exports.orgService = require('./org.service');
+module.exports.caService = require('./ca.service');
+module.exports.pointsService = require('./points.service');
+module.exports.prepaidCardService = require('./prepaid-card.service');
+module.exports.giftCardService = require('./gift-card.service');
+module.exports.utilityTokenService = require('./utility-token.service');
+module.exports.voucherService = require('./voucher.service');
