@@ -1,9 +1,9 @@
 const httpStatus = require('http-status');
+const { assets } = require('loyalty-blockchain-common');
 const prisma = require('../prisma/client');
 const logger = require('../config/logger');
 const { reformatDate } = require('./utils/AssetUtil');
 const ApiError = require('../utils/ApiError');
-const { AssetType } = require('../utils/formatHelpers');
 
 const getStatus = async (userObj, cardId) => {
   const lastCardEntry = await prisma.$queryRaw`
@@ -62,7 +62,7 @@ const getHistory = async (userObj, cardId, verbosity) => {
             expirationDate: 0,
             enforcementDate: 0,
             state: 1,
-            type: AssetType.UTILITY_TOKEN,
+            type: assets.types.AssetType.UTILITY_TOKEN,
           }
     );
     const state = reformatDate(Object.values(result)[i]);

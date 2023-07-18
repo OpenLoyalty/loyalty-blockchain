@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 const httpStatus = require('http-status');
+const { assets } = require('loyalty-blockchain-common');
 const prisma = require('../prisma/client');
 const logger = require('../config/logger');
 const { reformatDate } = require('./utils/AssetUtil');
 const ApiError = require('../utils/ApiError');
-const { AssetType } = require('../utils/formatHelpers');
 
 /**
  * Get card balance
@@ -77,7 +77,14 @@ const getHistory = async (userObj, cardId, verbosity) => {
     const stateBefore = reformatDate(
       i > 0
         ? Object.values(result)[i - 1]
-        : { amount: '0', owner: null, expirationDate: 0, enforcementDate: 0, state: 1, type: AssetType.PREPAID_CARD }
+        : {
+            amount: '0',
+            owner: null,
+            expirationDate: 0,
+            enforcementDate: 0,
+            state: 1,
+            type: assets.types.AssetType.PREPAID_CARD,
+          }
     );
     const state = reformatDate(Object.values(result)[i]);
     if (state.owner === userObj.userUuid || stateBefore.owner === userObj.userUuid) {

@@ -10,6 +10,7 @@ const logger = require('../../config/logger');
 const reformatDate = (utxoList) => {
   if (!utxoList.length) {
     try {
+      logger.info(`reformatDate from: ${JSON.stringify(utxoList, null, 2)}`);
       // eslint-disable-next-line no-param-reassign
       utxoList.enforcementDate = getISODate(utxoList.enforcementDate);
       // eslint-disable-next-line no-param-reassign
@@ -26,6 +27,7 @@ const reformatDate = (utxoList) => {
     return utxoList;
   }
   utxoList.forEach((utxo) => {
+      logger.info(`reformatDate from: ${JSON.stringify(utxo, null, 2)}`);
     // eslint-disable-next-line no-param-reassign
     utxo.enforcementDate = getISODate(utxo.enforcementDate);
     // eslint-disable-next-line no-param-reassign

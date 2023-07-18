@@ -2,11 +2,13 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService, pointsService } = require('../services');
+const { validateUserOrgConsistency } = require('./utils/utils');
 const logger = require('../config/logger');
 
 const transferPoints = catchAsync(async (req, res) => {
   logger.info(`req user: ${req.user.userUuid} req body: ${JSON.stringify(req.body)}`);
   const receiverObj = await userService.getUserByUuid(req.body.receiverWallet, { organization: true });
+  validateUserOrgConsistency(req.user, receiverObj);
   const points = await pointsService.transferPoints(req.user, receiverObj, req.body.amount);
   res.status(httpStatus.OK).send(points);
 });

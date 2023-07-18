@@ -1,10 +1,12 @@
 /* eslint-disable no-undef */
 const httpStatus = require('http-status');
+const { assets } = require('loyalty-blockchain-common');
 const prisma = require('../prisma/client');
 const logger = require('../config/logger');
-const { reformatDate } = require('./utils/AssetUtil');
+const { assetUtils, appUtils } = require('./utils');
 const ApiError = require('../utils/ApiError');
-const { AssetType } = require('../utils/formatHelpers');
+
+const utf8Decoder = new TextDecoder();
 
 /**
  * Get card balance
@@ -25,7 +27,7 @@ const getBalance = async (userObj, cardId, verbosity) => {
   }
 
   logger.info(JSON.stringify(lastCardEntry));
-  lastCardEntry[0] = reformatDate(lastCardEntry[0]);
+  lastCardEntry[0] = assetUtils.reformatDate(lastCardEntry[0]);
   return {
     balance: lastCardEntry[0].amount,
     currency: lastCardEntry[0].currency,
@@ -48,7 +50,7 @@ const getAssets = async (userObj) => {
     where tbl.owner=${userObj.userUuid};
   `;
 
-  return reformatDate(userCards);
+  return assetUtils.reformatDate(userCards);
 };
 
 /**
@@ -74,12 +76,19 @@ const getHistory = async (userObj, cardId, verbosity) => {
   let assetType;
   let assetCurrency;
   for (let i = 0; i < Object.values(result).length; i += 1) {
-    const stateBefore = reformatDate(
+    const stateBefore = assetUtils.reformatDate(
       i > 0
         ? Object.values(result)[i - 1]
-        : { amount: '0', owner: null, expirationDate: 0, enforcementDate: 0, state: 1, type: AssetType.GIFT_CARD }
+        : {
+            amount: '0',
+            owner: null,
+            expirationDate: 0,
+            enforcementDate: 0,
+            state: 1,
+            type: assets.types.AssetType.GIFT_CARD,
+          }
     );
-    const state = reformatDate(Object.values(result)[i]);
+    const state = assetUtils.reformatDate(Object.values(result)[i]);
     if (state.owner === userObj.userUuid || stateBefore.owner === userObj.userUuid) {
       const amountDiff = parseInt(state.amount, 10) - parseInt(stateBefore.amount, 10);
       const { metadata } = state;
@@ -94,6 +103,10 @@ const getHistory = async (userObj, cardId, verbosity) => {
         tx.direction = stateBefore.owner === userObj.userUuid ? 'outcome' : 'income';
         tx.from = stateBefore.owner;
         tx.to = state.owner;
+      } else if (metadata.action === 'spend') {
+        tx.direction = amountDiff > 0 ? 'income' : 'outcome';
+        tx.from = stateBefore.owner;
+        tx.to = null; 
       } else {
         tx.direction = amountDiff > 0 ? 'income' : 'outcome';
         tx.from = stateBefore.owner;
@@ -121,7 +134,7 @@ const getAsset = async (assetId) => {
   `;
 
   try {
-    return reformatDate(theAsset[0]);
+    return assetUtils.reformatDate(theAsset[0]);
   } catch (e) {
     return null;
   }
@@ -157,6 +170,77 @@ const verifyTransferability = async (userObj, cardId) => {
   return true;
 };
 
+/**
+ * Transfering given card from one user to another
+ * @param {User} userObj
+ * @param {String} cardId
+ * @param {User} receiverObj
+ * @return {Object}
+ */
+const transferCard = async (userObj, cardId, receiverObj) => {
+  const chaincodeConnection = await appUtils.getChaincodeConnection(
+    userObj,
+    userObj.organization.channels[0].name,
+    'gift-card-contract'
+  );
+
+  try {
+    const result = await chaincodeConnection.submitAsync('Transfer', {
+      arguments: [cardId, receiverObj.userUuid],
+    });
+    logger.info(`transferCard result: ${JSON.stringify(JSON.parse(utf8Decoder.decode(result.getResult())))}`);
+    const json = JSON.parse(utf8Decoder.decode(result.getResult()));
+    json.result = assetUtils.reformatDate(json.result);
+
+    return json;
+  } catch (e) {
+    logger.info(`transferCard failed call to submitAsync. error: ${e}`);
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `Failed to submit transaction to blockchain`,
+      `Submit blockchain transaction failed with error ${e}`
+    );
+  }
+};
+
+/**
+ * Spending provided amount of points in the shop from given card
+ * @param {User} userObj
+ * @param {String} cardId
+ * @param {BigInteger} amount
+ * @param {String} currency
+ * @return {Object}
+ */
+// eslint-disable-next-line no-unused-vars
+const spendFromCard = async (userObj, cardId, amount, currency) => {
+  // TODO: verify that currency passed is matching the card currency
+
+  const chaincodeConnection = await appUtils.getChaincodeConnection(
+    userObj,
+    userObj.organization.channels[0].name,
+    'gift-card-contract'
+  );
+
+  try {
+    const result = await chaincodeConnection.submitAsync('Spend', {
+      arguments: [`${amount}`, cardId],
+    });
+
+    logger.info(`spendFromCard result: ${JSON.stringify(JSON.parse(utf8Decoder.decode(result.getResult())))}`);
+    const json = JSON.parse(utf8Decoder.decode(result.getResult()));
+    json.result = assetUtils.reformatDate(json.result);
+
+    return json;
+  } catch (e) {
+    logger.info(`spendFromCard failed call to submitAsync. error: ${e}`);
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `Failed to submit transaction to blockchain`,
+      `Submit blockchain transaction failed with error ${e}`
+    );
+  }
+};
+
 module.exports = {
   getBalance,
   getAssets,
@@ -164,4 +248,6 @@ module.exports = {
   getAsset,
   verifyOwner,
   verifyTransferability,
+  transferCard,
+  spendFromCard,
 };

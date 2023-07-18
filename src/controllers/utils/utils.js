@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const ApiError = require('../../../utils/ApiError');
+const ApiError = require('../../utils/ApiError');
 
 /**
  * Verify that users involved in a transaction are eligible to do so

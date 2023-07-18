@@ -77,7 +77,7 @@ const getHistory = async (userObj, cardId, verbosity) => {
     const stateBefore = reformatDate(
       i > 0
         ? Object.values(result)[i - 1]
-        : { amount: '0', owner: null, expirationDate: 0, enforcementDate: 0, state: 1, type: AssetType.VOUCHER }
+        : { amount: '0', owner: null, expirationDate: 0, enforcementDate: 0, state: 1, type: assets.types.AssetType.VOUCHER }
     );
     const state = reformatDate(Object.values(result)[i]);
     if (state.owner === userObj.userUuid || stateBefore.owner === userObj.userUuid) {
