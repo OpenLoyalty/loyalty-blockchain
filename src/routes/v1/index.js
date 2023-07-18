@@ -3,7 +3,7 @@ const authRoute = require('./auth.route');
 const adminRoute = require('./admin');
 const pointsRoute = require('./points.route');
 const giftCardRoute = require('./gift-card.route');
-// const prepaidCardRoute = require('./prepaid-card.route');
+const prepaidCardRoute = require('./prepaid-card.route');
 // const voucherRoute = require('./voucher.route');
 const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
@@ -37,10 +37,10 @@ const defaultRoutes = [
     path: '/gift-card',
     route: giftCardRoute,
   },
-  // {
-  //   path: '/prepaid-card',
-  //   route: prepaidCardRoute,
-  // },
+  {
+    path: '/prepaid-card',
+    route: prepaidCardRoute,
+  },
   // {
   //   path: '/voucher',
   //   route: voucherRoute,
