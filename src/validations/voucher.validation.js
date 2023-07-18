@@ -2,7 +2,7 @@ const Joi = require('joi').extend(require('@joi/date')).extend(require('joi-curr
 
 const balance = {
   params: Joi.object().keys({
-    cardId: Joi.string().guid().required(),
+    cardId: Joi.string().required(),
   }),
   query: Joi.object().keys({
     verbosity: Joi.number().default(0),
@@ -11,7 +11,7 @@ const balance = {
 
 const history = {
   params: Joi.object().keys({
-    cardId: Joi.string().guid().required(),
+    cardId: Joi.string().required(),
   }),
   query: Joi.object().keys({
     verbosity: Joi.number().default(0),
@@ -20,7 +20,7 @@ const history = {
 
 const spend = {
   body: Joi.object().keys({
-    cardId: Joi.string().guid().required(),
+    cardId: Joi.string().required(),
     amount: Joi.number().integer().positive().required(),
     currency: Joi.string().currency().required(),
   }),
@@ -28,7 +28,7 @@ const spend = {
 
 const transfer = {
   body: Joi.object().keys({
-    cardId: Joi.string().guid().required(),
+    cardId: Joi.string().required(),
     receiverWallet: Joi.string().guid().required(),
   }),
 };
