@@ -3,7 +3,7 @@ const ApiError = require('../../utils/ApiError');
 const catchAsync = require('../../utils/catchAsync');
 const { userService, adminService, prepaidCardService } = require('../../services');
 const logger = require('../../config/logger');
-const { validateUserOrgConsistency } = require('../utils/admin/utils');
+const { validateUserOrgConsistency } = require('../utils/utils');
 
 const createCard = catchAsync(async (req, res) => {
   const receiverObj = await userService.getUserByUuid(req.body.receiverWallet);

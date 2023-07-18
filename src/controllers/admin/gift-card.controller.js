@@ -3,7 +3,7 @@ const ApiError = require('../../utils/ApiError');
 const catchAsync = require('../../utils/catchAsync');
 const { userService, adminService, giftCardService } = require('../../services');
 const logger = require('../../config/logger');
-const { validateUserOrgConsistency } = require('../utils/admin/utils');
+const { validateUserOrgConsistency } = require('../utils/utils');
 
 const createCard = catchAsync(async (req, res) => {
   const receiverObj = await userService.getUserByUuid(req.body.receiverWallet);
@@ -33,8 +33,8 @@ const transferCard = catchAsync(async (req, res) => {
     `req user: ${req.user.userUuid} on behalf of ${senderObj.userUuid} req body: ${JSON.stringify(req.body, null, 2)}`
   );
 
-  const points = await adminService.giftCardService.transferCard(req.user, senderObj, req.body.cardId, receiverObj);
-  res.status(httpStatus.OK).send(points);
+  const card = await adminService.giftCardService.transferCard(req.user, senderObj, req.body.cardId, receiverObj);
+  res.status(httpStatus.OK).send(card);
 });
 
 const spendFromCard = catchAsync(async (req, res) => {
