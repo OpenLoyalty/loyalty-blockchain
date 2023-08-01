@@ -1,0 +1,1634 @@
+openapi: 3.0.0
+info:
+  title: Loyalty Blockchain API
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://github.com/OpenLoyalty/loyalty-blockchain/LICENSE
+  servers:
+    - url: http://localhost:3000
+security:
+  - bearerAuth: []
+paths:
+  /v1/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: User login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: User logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+      responses:
+        '200':
+          description: Successful logout
+        # Add other response codes and descriptions as needed
+
+  /v1/auth/refresh-tokens:
+    post:
+      tags:
+        - Auth
+      summary: Refresh access tokens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokensRequest'
+      responses:
+        '200':
+          description: Access tokens refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokensResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/auth/forgot-password:
+    post:
+      tags:
+        - Auth
+      summary: Request password reset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          description: Password reset request successful
+        # Add other response codes and descriptions as needed
+
+  /v1/auth/reset-password:
+    post:
+      tags:
+        - Auth
+      summary: Reset password
+      parameters:
+        - in: query
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Password reset token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password reset successful
+        # Add other response codes and descriptions as needed
+  /v1/diagnostics/healthy:
+    get:
+      tags:
+        - Diagnostics
+      summary: Check API health status
+      responses:
+        '200':
+          description: API is healthy
+        # Add other response codes and descriptions as needed
+  /v1/points/balance:
+    get:
+      tags:
+        - Points (User)
+      summary: Get user points balance
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: verbosity
+          schema:
+            type: number
+            default: 0
+      responses:
+        '200':
+          description: User points balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/points/history:
+    get:
+      tags:
+        - Points (User)
+      summary: Get user points history
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: verbosity
+          schema:
+            type: number
+            default: 0
+      responses:
+        '200':
+          description: User points history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/points/spend:
+    post:
+      tags:
+        - Points (User)
+      summary: Spend user points
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendRequest'
+      responses:
+        '200':
+          description: Points spent successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/points/transfer:
+    post:
+      tags:
+        - Points (User)
+      summary: Transfer points to another user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '200':
+          description: Points transferred successfully
+        # Add other response codes and descriptions as needed
+  /v1/users:
+    post:
+      tags:
+        - Users (User)
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  tokens:
+                    $ref: '#/components/schemas/AuthTokens'
+        "400":
+          $ref: '#/components/responses/DuplicateUsername'
+
+    get:
+      tags:
+        - Users (User)
+      summary: Get users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+        - in: query
+          name: role
+          schema:
+            type: string
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/users/{username}:
+    get:
+      tags:
+        - Users (User)
+      summary: Get a user by username
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+        # Add other response codes and descriptions as needed
+
+    patch:
+      tags:
+        - Users (User)
+      summary: Update a user by username
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User updated successfully
+        # Add other response codes and descriptions as needed
+
+    delete:
+      tags:
+        - Users (User)
+      summary: Delete a user by username
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User deleted successfully
+        # Add other response codes and descriptions as needed
+  /v1/gift-card/{cardId}/balance:
+    get:
+      tags:
+        - Gift Card (User)
+      summary: Get gift card balance
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Gift card balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/gift-card/{cardId}/history:
+    get:
+      tags:
+        - Gift Card (User)
+      summary: Get gift card history
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Gift card history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/gift-card/spend:
+    post:
+      tags:
+        - Gift Card (User)
+      summary: Spend from a gift card
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendRequest'
+      responses:
+        '200':
+          description: Amount spent successfully from the gift card
+        # Add other response codes and descriptions as needed
+
+  /v1/gift-card/transfer:
+    post:
+      tags:
+        - Gift Card (User)
+      summary: Transfer a gift card to another user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '200':
+          description: Gift card transferred successfully
+        # Add other response codes and descriptions as needed
+  /v1/prepaid-card/{cardId}/balance:
+    get:
+      tags:
+        - Prepaid Card (User)
+      summary: Get prepaid card balance
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Prepaid card balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/prepaid-card/{cardId}/history:
+    get:
+      tags:
+        - Prepaid Card (User)
+      summary: Get prepaid card history
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Prepaid card history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/prepaid-card/spend:
+    post:
+      tags:
+        - Prepaid Card (User)
+      summary: Spend from a prepaid card
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendRequest'
+      responses:
+        '200':
+          description: Amount spent successfully from the prepaid card
+        # Add other response codes and descriptions as needed
+
+  /v1/prepaid-card/transfer:
+    post:
+      tags:
+        - Prepaid Card (User)
+      summary: Transfer a prepaid card to another user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '200':
+          description: Prepaid card transferred successfully
+        # Add other response codes and descriptions as needed
+  /v1/voucher/{cardId}/balance:
+    get:
+      tags:
+        - Voucher (User)
+      summary: Get voucher balance
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Voucher balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/voucher/{cardId}/history:
+    get:
+      tags:
+        - Voucher (User)
+      summary: Get voucher history
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Voucher history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+        # Add other response codes and descriptions as needed
+
+  /v1/voucher/spend:
+    post:
+      tags:
+        - Voucher (User)
+      summary: Spend from a voucher
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendRequest'
+      responses:
+        '200':
+          description: Amount spent successfully from the voucher
+        # Add other response codes and descriptions as needed
+
+  /v1/voucher/transfer:
+    post:
+      tags:
+        - Voucher (User)
+      summary: Transfer a voucher to another user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '200':
+          description: Voucher transferred successfully
+        # Add other response codes and descriptions as needed
+  /v1/admin/gift-card/create:
+    post:
+      tags:
+        - Gift Card (Admin)
+      summary: Create a gift card
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGiftCardRequest'
+      responses:
+        '200':
+          description: Gift card created successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/gift-card/spend:
+    post:
+      tags:
+        - Gift Card (Admin)
+      summary: Spend from a gift card
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendGiftCardRequest'
+      responses:
+        '200':
+          description: Amount spent successfully from the gift card
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/gift-card/transfer:
+    post:
+      tags:
+        - Gift Card (Admin)
+      summary: Transfer a gift card to another user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferGiftCardRequest'
+      responses:
+        '200':
+          description: Gift card transferred successfully
+        # Add other response codes and descriptions as needed
+  /v1/admin/points/add:
+    post:
+      tags:
+        - Points (Admin)
+      summary: Add points to a user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPointsRequest'
+      responses:
+        '200':
+          description: Points added successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/points/spend:
+    post:
+      tags:
+        - Points (Admin)
+      summary: Spend points from a user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendPointsRequest'
+      responses:
+        '200':
+          description: Points spent successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/points/transfer:
+    post:
+      tags:
+        - Points (Admin)
+      summary: Transfer points between users
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferPointsRequest'
+      responses:
+        '200':
+          description: Points transferred successfully
+        # Add other response codes and descriptions as needed
+  /v1/admin/prepaid-card/create:
+    post:
+      tags:
+        - Prepaid Card (Admin)
+      summary: Create a prepaid card
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePrepaidCardRequest'
+      responses:
+        '200':
+          description: Prepaid card created successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/prepaid-card/spend:
+    post:
+      tags:
+        - Prepaid Card (Admin)
+      summary: Spend from a prepaid card
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpendPrepaidCardRequest'
+      responses:
+        '200':
+          description: Amount spent successfully from the prepaid card
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/prepaid-card/transfer:
+    post:
+      tags:
+        - Prepaid Card (Admin)
+      summary: Transfer a prepaid card to another user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferPrepaidCardRequest'
+      responses:
+        '200':
+          description: Prepaid card transferred successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/prepaid-card/recharge:
+    post:
+      tags:
+        - Prepaid Card (Admin)
+      summary: Recharge a prepaid card
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RechargePrepaidCardRequest'
+      responses:
+        '200':
+          description: Prepaid card recharged successfully
+        # Add other response codes and descriptions as needed
+  /v1/admin/users:
+    post:
+      tags:
+        - Users (Admin)
+      summary: Create a user
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '200':
+          description: User created successfully
+        # Add other response codes and descriptions as needed
+
+    get:
+      tags:
+        - Users (Admin)
+      summary: Get all users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+        - in: query
+          name: role
+          schema:
+            type: string
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: page
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Users retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}:
+    get:
+      tags:
+        - Users (Admin)
+      summary: Get a user by wallet
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: User retrieved successfully
+        # Add other response codes and descriptions as needed
+
+    patch:
+      tags:
+        - Users (Admin)
+      summary: Update a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User updated successfully
+        # Add other response codes and descriptions as needed
+
+    delete:
+      tags:
+        - Users (Admin)
+      summary: Delete a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: User deleted successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/points/balance:
+    get:
+      summary: Get the balance of points for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: Points balance retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/points/history:
+    get:
+      summary: Get the points history for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: Points history retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/prepaid-card/{cardId}/balance:
+    get:
+      summary: Get the balance of a prepaid card for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Prepaid card balance retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/prepaid-card/{cardId}/history:
+    get:
+      summary: Get the history of a prepaid card for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Prepaid card history retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/gift-card/{cardId}/balance:
+    get:
+      summary: Get the balance of a gift card for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Gift card balance retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/gift-card/{cardId}/history:
+    get:
+      summary: Get the history of a gift card for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Gift card history retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/utility-token/{cardId}/balance:
+    get:
+      summary: Get the balance of a utility token for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Utility token balance retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/utility-token/{cardId}/history:
+    get:
+      summary: Get the history of a utility token for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Utility token history retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/voucher/{cardId}/balance:
+    get:
+      summary: Get the balance of a voucher for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Voucher balance retrieved successfully
+        # Add other response codes and descriptions as needed
+
+  /v1/admin/users/{wallet}/voucher/{cardId}/history:
+    get:
+      summary: Get the history of a voucher for a user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: wallet
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: cardId
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Voucher history retrieved successfully
+        # Add other response codes and descriptions as needed
+  /v1/admin/utility-token/create:
+    post:
+      tags:
+        - Utility Token (Admin)
+      summary: Create utility token card
+      security:
+        - manageUsers: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UtilityTokenCreateRequest'
+      responses:
+        '200':
+          description: Utility token card created successfully
+
+  /v1/admin/utility-token/use:
+    post:
+      tags:
+        - Utility Token (Admin)
+      summary: Use utility token card
+      security:
+        - manageUsers: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UtilityTokenUseRequest'
+      responses:
+        '200':
+          description: Utility token card used successfully
+
+  /v1/admin/utility-token/transfer:
+    post:
+      tags:
+        - Utility Token (Admin)
+      summary: Transfer utility token card
+      security:
+        - manageUsers: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UtilityTokenTransferRequest'
+      responses:
+        '200':
+          description: Utility token card transferred successfully
+  /v1/admin/voucher/create:
+    post:
+      tags:
+        - Voucher (Admin)
+      summary: Create voucher card
+      security:
+        - manageUsers: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoucherCreateRequest'
+      responses:
+        '200':
+          description: Voucher card created successfully
+
+  /v1/admin/voucher/spend:
+    post:
+      tags:
+        - Voucher (Admin)
+      summary: Spend from voucher card
+      security:
+        - manageUsers: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoucherSpendRequest'
+      responses:
+        '200':
+          description: Amount spent from voucher card successfully
+
+  /v1/admin/voucher/transfer:
+    post:
+      tags:
+        - Voucher (Admin)
+      summary: Transfer voucher card
+      security:
+        - manageUsers: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoucherTransferRequest'
+      responses:
+        '200':
+          description: Voucher card transferred successfully
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+          enum: [user, admin]
+      example:
+        id: 5ebac534954b54139806c112
+        email: fake@example.com
+        name: fake name
+        role: user
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+        expires:
+          type: string
+          format: date-time
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+        expires: 2020-05-12T16:18:04.793Z
+
+    AuthTokens:
+      type: object
+      properties:
+        access:
+          $ref: '#/components/schemas/Token'
+        refresh:
+          $ref: '#/components/schemas/Token' 
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: At least one number and one letter
+      required:
+        - username
+        - password
+      example:
+        username: appAdmin
+        password: password1
+
+    LoginResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        tokens:
+          $ref: '#/components/schemas/AuthTokens'
+
+    LogoutRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required:
+        - refreshToken
+
+    RefreshTokensRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required:
+        - refreshToken
+
+    RefreshTokensResponse:
+      type: object
+      properties:
+        # Add properties for the refresh tokens response
+
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        username:
+          type: string
+      required:
+        - username
+
+    ResetPasswordRequest:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password
+
+    BalanceResponse:
+      type: object
+      properties:
+        # Add properties for the balance response
+
+    HistoryResponse:
+      type: object
+      properties:
+        # Add properties for the history response
+
+    SpendRequest:
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int64
+      required:
+        - amount
+
+    TransferRequest:
+      type: object
+      properties:
+        receiverWallet:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int64
+      required:
+        - receiverWallet
+        - amount
+    GetUsersResponse:
+      type: object
+      properties:
+        # Add properties for the get users response
+
+    GetUserResponse:
+      type: object
+      properties:
+        # Add properties for the get user response
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      minProperties: 1
+
+    DeleteUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+
+    SpendRequestWithCurrency:
+      allOf:
+        - $ref: '#/components/schemas/SpendRequest'
+        - type: object
+          properties:
+            currency:
+              type: string
+              format: currency-code
+          required:
+            - currency
+    CreateGiftCardRequest:
+      type: object
+      properties:
+        receiverWallet:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int64
+        currency:
+          type: string
+          format: currency-code
+        enforcementDate:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+      required:
+        - receiverWallet
+        - amount
+        - currency
+        - enforcementDate
+        - expirationDate
+
+    SpendGiftCardRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        currency:
+          type: string
+          format: currency-code
+      required:
+        - ownerWallet
+        - cardId
+        - amount
+        - currency
+
+    TransferGiftCardRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        receiverWallet:
+          type: string
+          format: uuid
+      required:
+        - ownerWallet
+        - cardId
+        - receiverWallet
+    AddPointsRequest:
+      type: object
+      properties:
+        receiverWallet:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int64
+        enforcementDate:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+      required:
+        - receiverWallet
+        - amount
+        - enforcementDate
+        - expirationDate
+
+    SpendPointsRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int64
+      required:
+        - ownerWallet
+        - amount
+
+    TransferPointsRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        receiverWallet:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int64
+      required:
+        - ownerWallet
+        - receiverWallet
+        - amount
+    CreatePrepaidCardRequest:
+      type: object
+      properties:
+        receiverWallet:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int64
+        currency:
+          type: string
+          format: currency-code
+        enforcementDate:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+      required:
+        - receiverWallet
+        - amount
+        - currency
+        - enforcementDate
+        - expirationDate
+
+    SpendPrepaidCardRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        currency:
+          type: string
+          format: currency-code
+      required:
+        - ownerWallet
+        - cardId
+        - amount
+        - currency
+
+    TransferPrepaidCardRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        receiverWallet:
+          type: string
+          format: uuid
+      required:
+        - ownerWallet
+        - cardId
+        - receiverWallet
+
+    RechargePrepaidCardRequest:
+      type: object
+      properties:
+        cardId:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        currency:
+          type: string
+          format: currency-code
+        extendPeriodDays:
+          type: integer
+          minimum: 0
+      required:
+        - cardId
+        - amount
+        - currency
+        - extendPeriodDays
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: At least one number and one letter
+        organization:
+          type: string
+        role:
+          type: string
+          enum: ['client', 'admin']
+      required:
+        - password
+        - organization
+        - role
+      example:
+        password: password1
+        organization: Org1
+        role: client
+
+    UtilityTokenCreateRequest:
+      type: object
+      properties:
+        receiverWallet:
+          type: string
+          format: uuid
+        utilities:
+          type: object
+          additionalProperties: true
+        usageLimits:
+          type: integer
+          format: int32
+        enforcementDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+    UtilityTokenUseRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        utility:
+          type: string
+    UtilityTokenTransferRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        receiverWallet:
+          type: string
+          format: uuid
+    UtilityTokenGetBalanceRequest:
+      type: object
+      properties:
+        wallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+    UtilityTokenGetHistoryRequest:
+      type: object
+      properties:
+        wallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+    UtilityTokenResponse:
+      type: object
+      properties:
+        # Add properties for the utility token response
+    VoucherCreateRequest:
+      type: object
+      properties:
+        receiverWallet:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int32
+        currency:
+          type: string
+        enforcementDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+    VoucherSpendRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        amount:
+          type: integer
+          format: int32
+        currency:
+          type: string
+    VoucherTransferRequest:
+      type: object
+      properties:
+        ownerWallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+        receiverWallet:
+          type: string
+          format: uuid
+    VoucherBalanceRequest:
+      type: object
+      properties:
+        wallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+    VoucherHistoryRequest:
+      type: object
+      properties:
+        wallet:
+          type: string
+          format: uuid
+        cardId:
+          type: string
+    VoucherResponse:
+      type: object
+      properties:
+        # Add properties for the voucher response
