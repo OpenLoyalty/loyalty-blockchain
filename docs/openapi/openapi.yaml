@@ -5,8 +5,6 @@ info:
   license:
     name: Apache-2.0
     url: https://github.com/OpenLoyalty/loyalty-blockchain/LICENSE
-  servers:
-    - url: http://localhost:3000
 security:
   - bearerAuth: []
 paths:
@@ -196,6 +194,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateUserRequest'
+      responses:
         "201":
           description: Created
           content:
@@ -258,6 +257,7 @@ paths:
       parameters:
         - in: path
           name: username
+          required: true
           schema:
             type: string
       responses:
@@ -278,6 +278,7 @@ paths:
       parameters:
         - in: path
           name: username
+          required: true
           schema:
             type: string
       requestBody:
@@ -299,6 +300,7 @@ paths:
       parameters:
         - in: path
           name: username
+          required: true
           schema:
             type: string
       responses:
@@ -1169,7 +1171,7 @@ components:
         access:
           $ref: '#/components/schemas/Token'
         refresh:
-          $ref: '#/components/schemas/Token' 
+          $ref: '#/components/schemas/Token'
     LoginRequest:
       type: object
       properties:
@@ -1214,7 +1216,10 @@ components:
     RefreshTokensResponse:
       type: object
       properties:
-        # Add properties for the refresh tokens response
+        access:
+          $ref: '#/components/schemas/Token'
+        refresh:
+          $ref: '#/components/schemas/Token'
 
     ForgotPasswordRequest:
       type: object
@@ -1235,12 +1240,101 @@ components:
     BalanceResponse:
       type: object
       properties:
-        # Add properties for the balance response
+        balance:
+          type: string
+          description: "Amount of balance available."
+          pattern: "^[0-9]+(\\.[0-9]{1,2})?$" # To capture possible decimals like "333.50"
+        currency:
+          type: string
+          description: "The currency in which the balance is denoted."
+        enforcementDate:
+          type: string
+          format: date-time
+          description: "Date and time when a certain rule or condition related to the balance will be enforced."
+        expirationDate:
+          type: string
+          format: date-time
+          description: "Date and time when the balance or some part of it will expire."
+        type:
+          type: string
+          description: "Type of balance."
+          enum:
+            - VOUCHER
+            - UTXO
+            - GIFT_CARD
+            - PREPAID_CARD
+            - UTILITY_TOKEN
+        state:
+          type: string
+          description: "Current state of the balance."
+          enum:
+            - LIQUID
+            - FROZEN
+            - SENDING
+            - SENT
+            - SPENT
 
     HistoryResponse:
       type: object
       properties:
-        # Add properties for the history response
+        state:
+          type: string
+          description: "Current state of the balance."
+          enum:
+            - LIQUID
+            - FROZEN
+            - SENDING
+            - SENT
+            - SPENT
+        type:
+          type: string
+          description: "Type of balance."
+          enum:
+            - VOUCHER
+            - UTXO
+            - GIFT_CARD
+            - PREPAID_CARD
+            - UTILITY_TOKEN
+        currency:
+          type: string
+          description: "The currency of the transaction."
+        txes:
+          type: array
+          description: "List of transactions."
+          items:
+            $ref: '#/components/schemas/Transaction'
+
+    Transaction:
+      type: object
+      properties:
+        txid:
+          type: string
+          description: "Unique identifier of the transaction."
+        amount:
+          type: number
+          description: "Amount involved in the transaction."
+        direction:
+          type: string
+          description: "Direction of the transaction."
+          enum:
+            - income
+            - outcome
+        type:
+          type: string
+          description: "Type of the transaction."
+        timestamp:
+          type: string
+          format: date-time
+          description: "Timestamp of the transaction."
+        from:
+          type: string
+          format: uuid
+          description: "Source of the transaction. Can be null."
+          nullable: true
+        to:
+          type: string
+          format: uuid
+          description: "Destination of the transaction."
 
     SpendRequest:
       type: object
@@ -1263,15 +1357,66 @@ components:
       required:
         - receiverWallet
         - amount
+    UserResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          description: "Username of the user."
+        userUuid:
+          type: string
+          format: uuid
+          description: "Unique identifier for the user. Can be null."
+          nullable: true
+        role:
+          type: string
+          description: "Role of the user."
+          enum:
+            - client
+            - admin
+
+    UserAssets:
+      type: object
+      properties:
+        prepaidCards:
+          type: array
+          description: "List of prepaid cards associated with the user."
+          items:
+            type: string
+        giftCards:
+          type: array
+          description: "List of gift cards associated with the user."
+          items:
+            type: string
+        vouchers:
+          type: array
+          description: "List of vouchers associated with the user."
+          items:
+            type: string
+        utilityTokens:
+          type: string
+          description: "Utility tokens associated with the user."
+
     GetUsersResponse:
       type: object
       properties:
-        # Add properties for the get users response
+        users:
+          type: array
+          description: "List of users."
+          items:
+            $ref: '#/components/schemas/UserResponse'
 
     GetUserResponse:
       type: object
       properties:
-        # Add properties for the get user response
+        user:
+          $ref: '#/components/schemas/User'
+        points:
+          type: integer
+          format: int32
+          description: "Points associated with the user."
+        assets:
+          $ref: '#/components/schemas/UserAssets'
 
     UpdateUserRequest:
       type: object
@@ -1530,6 +1675,7 @@ components:
         expirationDate:
           type: string
           format: date
+
     UtilityTokenUseRequest:
       type: object
       properties:
@@ -1540,6 +1686,7 @@ components:
           type: string
         utility:
           type: string
+
     UtilityTokenTransferRequest:
       type: object
       properties:
@@ -1551,6 +1698,7 @@ components:
         receiverWallet:
           type: string
           format: uuid
+
     UtilityTokenGetBalanceRequest:
       type: object
       properties:
@@ -1559,6 +1707,7 @@ components:
           format: uuid
         cardId:
           type: string
+
     UtilityTokenGetHistoryRequest:
       type: object
       properties:
@@ -1567,10 +1716,7 @@ components:
           format: uuid
         cardId:
           type: string
-    UtilityTokenResponse:
-      type: object
-      properties:
-        # Add properties for the utility token response
+
     VoucherCreateRequest:
       type: object
       properties:
@@ -1628,7 +1774,4 @@ components:
           format: uuid
         cardId:
           type: string
-    VoucherResponse:
-      type: object
-      properties:
-        # Add properties for the voucher response
+

@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "ae4e3003-04f4-4aa4-a6f9-9662daa99135",
-		"name": "hl",
+		"name": "Loyalty Blockchain API docs",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -327,50 +327,6 @@
 							"path": [
 								"v1",
 								"user"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Tests",
-			"item": [
-				{
-					"name": "ping",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/v1/test/ping",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"v1",
-								"test",
-								"ping"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ping blockchain",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/v1/test/blockchain/ping",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"v1",
-								"test",
-								"blockchain",
-								"ping"
 							]
 						}
 					},
@@ -1169,7 +1125,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"gift-card-contract\",\n  \"channelName\": \"channel-org1\"\n}",
+											"raw": "{\n  \"name\": \"asset-transfer-basic\",\n  \"channelName\": \"channel1-org1\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1205,7 +1161,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"receiverWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"amount\": 444,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2023-03-10 22:30:00\",\n    \"expirationDate\": \"2023-02-10 12:53:15\"\n    \n}",
+									"raw": "{\n    \"receiverWallet\": \"17ceee6f-f4f6-4875-b8ac-076b28923f8d\",\n    \"amount\": 444,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2022-03-10 22:30:00\",\n    \"expirationDate\": \"2024-02-10 12:53:15\"\n    \n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1406,7 +1362,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"receiverWallet\": \"ecceafda-6a95-4eeb-8289-fed8e7d1124b\",\n    \"amount\": 300,\n    \"enforcementDate\": \"2022-11-10 22:30:00\",\n    \"expirationDate\": \"2023-02-26 12:55:00\"\n}",
+									"raw": "{\n    \"receiverWallet\": \"17ceee6f-f4f6-4875-b8ac-076b28923f8d\",\n    \"amount\": 300,\n    \"enforcementDate\": \"2023-01-10 22:30:00\",\n    \"expirationDate\": \"2023-12-26 12:55:00\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1435,7 +1391,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"ownerWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"receiverWallet\": \"a7fc63fd-28de-4cbd-8918-1cf514209145\",\n    \"amount\": 100\n}",
+									"raw": "{\n    \"ownerWallet\": \"919219c8-15d5-47a8-9bd4-00fb99b8796b\",\n    \"receiverWallet\": \"0cda6c06-d944-46e9-93aa-cd8f80015ff9\",\n    \"amount\": 100\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1464,7 +1420,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"ownerWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"amount\": 30\n  }",
+									"raw": "{\n    \"ownerWallet\": \"919219c8-15d5-47a8-9bd4-00fb99b8796b\",\n    \"amount\": 30\n  }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1514,7 +1470,7 @@
 									"variable": [
 										{
 											"key": "wallet",
-											"value": "fa2cd031-d5dd-4406-b4cb-84ff8f88bebe"
+											"value": "919219c8-15d5-47a8-9bd4-00fb99b8796b"
 										}
 									]
 								}
@@ -1568,7 +1524,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"receiverWallet\": \"ecceafda-6a95-4eeb-8289-fed8e7d1124b\",\n    \"amount\": 333,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2022-11-10 22:30:00\",\n    \"expirationDate\": \"2023-12-16 12:53:15\"\n    \n}",
+									"raw": "{\n    \"receiverWallet\": \"17ceee6f-f4f6-4875-b8ac-076b28923f8d\",\n    \"amount\": 333,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2023-01-10 22:30:00\",\n    \"expirationDate\": \"2023-12-26 12:55:00\"\n    \n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1740,7 +1696,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"receiverWallet\": \"ecceafda-6a95-4eeb-8289-fed8e7d1124b\",\n    \"amount\": 333,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2022-12-29 22:30:00\",\n    \"expirationDate\": \"2023-12-16 12:53:15\"\n}",
+									"raw": "{\n    \"receiverWallet\": \"1c3b739e-fa01-41a7-916b-17ab147eb32b\",\n    \"amount\": 333,\n    \"currency\": \"USD\",\n    \"enforcementDate\": \"2023-01-10 22:30:00\",\n    \"expirationDate\": \"2023-12-26 12:55:00\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1849,11 +1805,11 @@
 									"variable": [
 										{
 											"key": "wallet",
-											"value": "ecceafda-6a95-4eeb-8289-fed8e7d1124b"
+											"value": "1c3b739e-fa01-41a7-916b-17ab147eb32b"
 										},
 										{
 											"key": "cardId",
-											"value": "92c188cc83213c4ca7475945fc00888dbc75bdb4c01ec6e09e6a83c43af7818a.0"
+											"value": "57c07ba00587ca4064cf14df38b73c9062b158acf90e500cec70206cc93597d8.0"
 										}
 									]
 								}
@@ -1894,6 +1850,178 @@
 										{
 											"key": "cardId",
 											"value": "e729ac8d7640cad61d26082335d897dda0ce984f9b2807ba40f6867cf7df822d.0"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "utility-token",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiverWallet\": \"2fa2a474-86e0-4864-ab64-e9956742afdc\",\n    \"utilities\": {\n        \"freeDelivery\": true, \n        \"products\": \"premiere\", \n        \"onet\": \"vip_section\"\n    },\n    \"usageLimits\": 5,\n    \"enforcementDate\": \"2023-01-10 22:30:00\",\n    \"expirationDate\": \"2023-12-26 12:55:00\"\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/utility-token/create",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"utility-token",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "transferCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"fa2cd031-d5dd-4406-b4cb-84ff8f88bebe\",\n    \"receiverWallet\": \"a7fc63fd-28de-4cbd-8918-1cf514209145\",\n    \"cardId\": \"46de17150ae043dd70126bcde4bfe41d29b99a2d67c770e61b2e53c8be437c34.0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/utility-token/transfer",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"utility-token",
+										"transfer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "useCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ownerWallet\": \"ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a\",\n    \"cardId\": \"09b9344916c473bd28d61ff6a829ea12762b16971524b6a668eeffa7f1973aad.0\",\n    \"amount\": 25,\n    \"currency\": \"USD\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/utility-token/use",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"utility-token",
+										"use"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBalance",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/utility-token/:cardId/balance",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"utility-token",
+										":cardId",
+										"balance"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "2bdb73cf-1768-4c4e-b3ea-5d4b395e22dc"
+										},
+										{
+											"key": "cardId",
+											"value": "67d199601c1c9109a7cad1c1067c4c3f598c611cf0032721c0db976058c14a35.0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getHistory",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/v1/admin/user/:wallet/utility-token/:cardId/history",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"admin",
+										"user",
+										":wallet",
+										"utility-token",
+										":cardId",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "wallet",
+											"value": "ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a"
+										},
+										{
+											"key": "cardId",
+											"value": "09b9344916c473bd28d61ff6a829ea12762b16971524b6a668eeffa7f1973aad.0"
 										}
 									]
 								}
@@ -1982,7 +2110,7 @@
 							"variable": [
 								{
 									"key": "wallet",
-									"value": "ac9a5bf7-6ab0-4472-98d8-13c7653eaf1a"
+									"value": "1c3b739e-fa01-41a7-916b-17ab147eb32b"
 								}
 							]
 						}
