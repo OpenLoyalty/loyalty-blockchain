@@ -58,10 +58,8 @@ services:
     ports:
       - "7010:8080"
     depends_on:
-      node-app:
-        condition: service_healthy
-      db:
-        condition: service_started
+      - node-app
+      - db
     networks:
       - hl-network
       - node-network

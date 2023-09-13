@@ -1,12 +1,12 @@
 #!/bin/bash
 
-FABLO_EXECUTABLE=fablo/fablo.sh
+FABLO_EXECUTABLE=fablo.sh
 
 cd scripts/fablo
 # Check if fablo executable exists
 if [ ! -f "$FABLO_EXECUTABLE" ]; then
     echo "fablo executable not found. Downloading..."
-    wget https://github.com/hyperledger-labs/fablo/releases/download/1.1.0/fablo.sh -P fablo/
+    wget https://github.com/hyperledger-labs/fablo/releases/download/1.1.0/fablo.sh -P .
     chmod +x "$FABLO_EXECUTABLE"
     echo "fablo executable downloaded successfully."
 fi
@@ -27,7 +27,7 @@ DEST_FILE=../fablo-target/network-config.yaml
 CHAINCODES_DIR=../loyalty-blockchain-contracts
 yarn run generate-network-config -- $SOURCE_FILE $DEST_FILE $CHAINCODES_DIR
 
-rm -rf loyalty-blockchain-contracts
+rm -rf ../loyalty-blockchain-contracts
 
 cd ../../..
 
